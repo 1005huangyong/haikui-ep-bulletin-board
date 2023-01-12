@@ -14,6 +14,6 @@ public class EPConfig {
      public static final int mysql_port=3306;
      public static final String mysql_database="BlueIot";
      public static final String mysql_user="root";
-     public static final String mysql_password="123456";
+     public static final String mysql_password="Haikui_mysql_8";
      public static final String mysql_timezone="Asia/Shanghai";
 }
