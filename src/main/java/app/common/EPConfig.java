@@ -10,7 +10,7 @@ public class EPConfig {
      public static final String mysql_timezone="Asia/Shanghai";*/
 
 
-     public static final String mysql_host="hadoop01";
+     public static final String mysql_host="192.168.0.205";
      public static final int mysql_port=3306;
      public static final String mysql_database="BlueIot";
      public static final String mysql_user="root";
