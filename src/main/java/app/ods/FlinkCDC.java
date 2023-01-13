@@ -30,6 +30,7 @@ public class FlinkCDC {
         streamSource.print();
 
 
+
         env.execute();
 
     }
