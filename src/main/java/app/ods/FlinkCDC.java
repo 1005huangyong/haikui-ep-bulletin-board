@@ -18,6 +18,8 @@ import org.apache.flink.util.OutputTag;
 
 import java.util.HashMap;
 
+import static app.Util.MyKafkaUtil.getKafkaProduce;
+
 
 public class FlinkCDC {
     public static void main(String[] args) throws Exception {
@@ -30,7 +32,7 @@ public class FlinkCDC {
         HashMap<String, OutputTag<String>> outMap = new HashMap<>();
         for (String table : tableNames.split(",")) {
             String[] filterTable = table.split("\\.");
-            OutputTag<String> outputTag = new OutputTag<String>("side-output") {};
+            OutputTag<String> outputTag = new OutputTag<String>(filterTable[1]) {};
             outMap.put(filterTable[1],outputTag);
         }
 
@@ -49,7 +51,7 @@ public class FlinkCDC {
 
         DataStreamSource<String> streamSource = env.addSource(mySqlData);
 
-        streamSource.print();
+        //streamSource.print();
 
         //两泛型分别是输入输出类型
         SingleOutputStreamOperator<String> mainStream = streamSource.process(new ProcessFunction<String, String>() {
@@ -61,15 +63,10 @@ public class FlinkCDC {
             }
         });
 
-        DataStream<String> project = mainStream.getSideOutput(outMap.get("project"));
-        DataStream<String> projectPlan = mainStream.getSideOutput(outMap.get("project_plan"));
-
-        //使用打印也是一样的 todo 发送代码后续在写，用for循环发送到所有topic即可
-        //FlinkKafkaProducer<String> kafkaProduce = getKafkaProduce("");
-        //streamSource.addSink(kafkaProduce);
-
-        project.print("stream 1: ");
-        projectPlan.print("stream 2: ");
+        for (String table : outMap.keySet()) {
+            DataStream<String> kafkaOutStream = mainStream.getSideOutput(outMap.get(table));
+            kafkaOutStream.addSink(getKafkaProduce(table));
+        }
 
         env.execute();
 
