@@ -9,7 +9,7 @@ import com.ververica.cdc.debezium.DebeziumSourceFunction;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
-public class ODSProject {
+public class FlinkCDC {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
@@ -19,7 +19,7 @@ public class ODSProject {
                 .username(EPConfig.mysql_user)
                 .password(EPConfig.mysql_password)
                 .databaseList(EPConfig.mysql_database)
-                .tableList("BlueIot.tb_inspect")
+                .tableList("easy_project22.project")
                 .serverTimeZone(EPConfig.mysql_timezone)
                 .deserializer(new CustomerDeserialization())
                 .startupOptions(StartupOptions.initial())
@@ -28,6 +28,8 @@ public class ODSProject {
         DataStreamSource<String> streamSource = env.addSource(mySqlData);
 
         streamSource.print();
+
+
         env.execute();
 
     }
