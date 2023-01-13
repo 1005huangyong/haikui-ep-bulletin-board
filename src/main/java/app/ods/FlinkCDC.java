@@ -54,9 +54,7 @@ public class FlinkCDC {
         //两泛型分别是输入输出类型
         SingleOutputStreamOperator<String> mainStream = streamSource.process(new ProcessFunction<String, String>() {
             @Override
-            public void processElement(String value,
-                                       ProcessFunction<String, String>.Context ctx,
-                                       Collector<String> out) throws Exception {
+            public void processElement(String value, ProcessFunction<String, String>.Context ctx, Collector<String> out) throws Exception {
                 JSONObject jsonObject = JSON.parseObject(value);
                 String table = jsonObject.getString("tableName");
                 ctx.output(outMap.get(table), value);
