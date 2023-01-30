@@ -68,6 +68,7 @@ public class FlinkCDC {
             kafkaOutStream.addSink(getKafkaProduce(table));
         }
 
+
         env.execute();
 
     }
