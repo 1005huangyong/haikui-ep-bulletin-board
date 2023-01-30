@@ -68,7 +68,7 @@ public class MysqlSource {
         String batch = "ods_project_batch";
 
         projectOutput.addSink(MyKafkaUtil.getKafkaProduce(project));
-        projectOutput.addSink(MyKafkaUtil.getKafkaProduce(batch));
+        batchOutput.addSink(MyKafkaUtil.getKafkaProduce(batch));
         env.execute();
 
     }
