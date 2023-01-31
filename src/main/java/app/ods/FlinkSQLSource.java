@@ -39,7 +39,6 @@ public class FlinkSQLSource {
 
         tableEnv.executeSql("select * from  groupedmessage ").print();
         env.execute();
-
-
+        
     }
 }
