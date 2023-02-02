@@ -24,5 +24,5 @@ public class EPConfig {
 
      //clickhouse
      public static final String CLICKHOUSE_DRIVER = "ru.yandex.clickhouse.ClickHouseDriver";
-     public static  final String CLICKHOUSE_URL="jdbc:clickhouse://127.0.0.1:8123/test";
+     public static  final String CLICKHOUSE_URL="jdbc:clickhouse://192.168.0.209:8123/default";
 }

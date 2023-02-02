@@ -49,7 +49,7 @@ public class sinkClickHouseTest {
 
         ProjectMap.print("ProjectMap");
 
-        ProjectMap.addSink(ClickHouseUtil.getSink("insert into test.project (id,project_num,project_name,status,client_num,client_name) values (?,?,?,?,?,?)"));
+        ProjectMap.addSink(ClickHouseUtil.getSink("insert into default.project (id,project_num,project_name,status,client_num,client_name) values (?,?,?,?,?,?)"));
 
 
         env.execute();

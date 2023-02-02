@@ -59,6 +59,8 @@ public class ClickHouseUtil {
                 new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
                         .withDriverName(EPConfig.CLICKHOUSE_DRIVER)
                         .withUrl(EPConfig.CLICKHOUSE_URL)
+                        .withUsername("default")
+                        .withPassword("haikui123")
                         .build());
 
     }
