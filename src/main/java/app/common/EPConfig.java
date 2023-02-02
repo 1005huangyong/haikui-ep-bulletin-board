@@ -19,6 +19,10 @@ public class EPConfig {
 
 
      //kafka
-     public static final String broker="ecs-026:9092,ecs-027:9092,ecs-028:9092,ecs-029:9092";
-     public static final String default_topic="default_topic";
+     public static final String BROKER="ecs-026:9092,ecs-027:9092,ecs-028:9092,ecs-029:9092";
+     public static final String DEFAULT_TOPIC="default_topic";
+
+     //clickhouse
+     public static final String CLICKHOUSE_DRIVER = "ru.yandex.clickhouse.ClickHouseDriver";
+     public static  final String CLICKHOUSE_URL="jdbc:clickhouse://127.0.0.1:8123/test";
 }

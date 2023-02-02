@@ -10,14 +10,14 @@ import java.util.Properties;
 
 public class MyKafkaUtil {
     public static FlinkKafkaProducer<String> getKafkaProduce(String topic) {
-        return new FlinkKafkaProducer<String>(EPConfig.broker, topic, new SimpleStringSchema());
+        return new FlinkKafkaProducer<String>(EPConfig.BROKER, topic, new SimpleStringSchema());
     }
 
     public static FlinkKafkaConsumer<String> getKafkaConsumer(String topic, String groupID) {
 
         Properties properties = new Properties();
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupID);
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, EPConfig.broker);
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, EPConfig.BROKER);
 
         return new FlinkKafkaConsumer<String>(topic, new SimpleStringSchema(), properties);
     }
