@@ -34,14 +34,15 @@ public class FlinkCDC {
         envConfig(env);
 
         //表名定义
-        String tableNames = "easy_project22.project,easy_project22.project_plan";
+        String tableNames = "easy_project22.project,easy_project22.project_plan,easy_project22.PLM_LABLE,easy_project22.military_draw";
 
         //定义侧输出流标签，并将侧输出流放入HashMap中方便后续调用
         HashMap<String, OutputTag<String>> outMap = new HashMap<>();
         for (String table : tableNames.split(",")) {
             String[] filterTable = table.split("\\.");
-            OutputTag<String> outputTag = new OutputTag<String>(filterTable[1]) {};
-            outMap.put(filterTable[1],outputTag);
+            OutputTag<String> outputTag = new OutputTag<String>(filterTable[1]) {
+            };
+            outMap.put(filterTable[1], outputTag);
         }
 
         DebeziumSourceFunction<String> mySqlData = MySqlSource.<String>builder()
@@ -82,7 +83,7 @@ public class FlinkCDC {
     }
 
     //执行环境配置，检查点，失败重启策略等
-    private static void envConfig(StreamExecutionEnvironment env){
+    private static void envConfig(StreamExecutionEnvironment env) {
         //2.2 设置状态后端
         env.getCheckpointConfig().setTolerableCheckpointFailureNumber(3);
         env.getCheckpointConfig().setMaxConcurrentCheckpoints(2);
