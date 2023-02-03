@@ -8,7 +8,6 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
-import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.util.Collector;
 
@@ -41,12 +40,7 @@ public class sinkClickHouseTest {
 
         afterStream.print("ProjectMap");
 
-        tabEnv.createTemporaryView("project",afterStream);
-
-
-        TableResult tableResult = tabEnv.executeSql("select * from  project");
-
-        tableResult.print();
+        afterStream.print();
 
        // ProjectMap.addSink(ClickHouseUtil.getSink("insert into default.project (id,project_num,project_name,status,client_num,client_name) values (?,?,?,?,?,?)"));
 

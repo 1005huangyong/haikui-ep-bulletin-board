@@ -8,12 +8,9 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
-import org.apache.flink.table.api.TableResult;
+import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.util.Collector;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 出图明细表
@@ -41,12 +38,6 @@ public class DWSDrawingDetails {
                         data.setPosition_code(data.getProject_num() + "-" + data.getWorkcode());
 
 
-                        if (data.getSend_drawing_time() != null && data.getSend_drawing_time().toString().length() > 0) {
-                            String Send_drawing_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(data.getSend_drawing_time());
-                            Date send_drawing_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(Send_drawing_time);
-                            data.setSend_drawing_time(send_drawing_time);
-                        }
-
                         out.collect(data);
                     }
                 });
@@ -62,10 +53,7 @@ public class DWSDrawingDetails {
                         MilitaryDraw data = value.getObject("after", MilitaryDraw.class);
 
 
-                        if (data.getMc_plan_accept_time() != null && data.getMc_plan_accept_time().toString().length() > 0) {
-                            String Mc_plan_accept_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(data.getMc_plan_accept_time());
-                            Date mc_plan_accept_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(Mc_plan_accept_time);
-                            data.setMc_plan_accept_time(mc_plan_accept_time);
+                            if (data.getMc_plan_accept_time() != null && data.getMc_plan_accept_time().toString().length() > 0) {
 
                         }
                         out.collect(data);
@@ -73,11 +61,15 @@ public class DWSDrawingDetails {
                 });
 
 
-        tabEnv.createTemporaryView("ods_plm_lable", plmLableAfterStream);
-        tabEnv.createTemporaryView("ods_military_draw", MilitaryDrawAfterStream);
+        Table ods_plm_lable_temp = tabEnv.fromDataStream(plmLableAfterStream);
+        Table ods_military_draw_temp = tabEnv.fromDataStream(MilitaryDrawAfterStream);
+
+        tabEnv.createTemporaryView("ods_plm_lable", ods_plm_lable_temp);
+        tabEnv.createTemporaryView("ods_military_draw", ods_military_draw_temp);
 
 
-        TableResult tableResult = tabEnv.executeSql("select \n" +
+        Table tableResult = tabEnv.sqlQuery("select \n" +
+                "a.id,\n" +
                 "a.project_num,\n" +
                 "a.position_code,\n" +
                 "a.mission,\n" +
@@ -91,7 +83,8 @@ public class DWSDrawingDetails {
 
 
 //        TableResult tableResult = tabEnv.executeSql("select mc_plan_accept_time from ods_military_draw");
-        tableResult.print();
+
+        tabEnv.toChangelogStream(tableResult).print();
 
         env.execute();
     }
