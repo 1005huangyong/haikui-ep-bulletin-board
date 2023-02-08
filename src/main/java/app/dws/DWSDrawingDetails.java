@@ -1,5 +1,6 @@
 package app.dws;
 
+import app.Util.JDBCClickHouseUtil;
 import app.Util.MyKafkaUtil;
 import app.bean.MilitaryDraw;
 import app.bean.PLMLABLE;
@@ -22,10 +23,10 @@ public class DWSDrawingDetails {
         StreamTableEnvironment tabEnv = StreamTableEnvironment.create(env);
 
         String topic1 = "PLM_LABLE";
-        String GroupID1 = "ods_PLM_LABLE";
+        String GroupID1 = "ods_PLM_LABLE_1";
 
         String topic2 = "military_draw";
-        String GroupID2 = "ods_military_draw_1";
+        String GroupID2 = "ods_military_draw";
 
         DataStreamSource<String> plmLableStream = env.addSource(MyKafkaUtil.getKafkaConsumer(topic1, GroupID1));
 
@@ -78,6 +79,14 @@ public class DWSDrawingDetails {
                 "left join (select project_num,position_code,send_drawing_time from ods_plm_lable where type='首次') as b \n" +
                 "on a.position_code=b.position_code");
 
+
+        String sql = "insert into table default.DWSDrawingDetails(id,project_num,position_code,mission,plan_number,actual_number,mc_plan_accept_time,send_drawing_time)" +
+               " values(?,?,?,?,?,?,?,?)";
+
+        JDBCClickHouseUtil jdbcSink = new JDBCClickHouseUtil(sql);
+
+
+        tabEnv.toChangelogStream(tableResult).addSink(jdbcSink);
 
         tabEnv.toChangelogStream(tableResult).print();
 

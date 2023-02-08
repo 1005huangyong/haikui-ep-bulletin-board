@@ -6,6 +6,7 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class JDBCClickHouseUtil extends RichSinkFunction {
@@ -19,7 +20,9 @@ public class JDBCClickHouseUtil extends RichSinkFunction {
     @Override
     public void open(Configuration parameters) throws Exception {
         super.open(parameters);
-        ClickHouseConn.getConn(EPConfig.URL,EPConfig.HORT,EPConfig.DATABASE,EPConfig.USERNAME,EPConfig.PASSWORD );
+        Class.forName("ru.yandex.clickhouse.ClickHouseDriver");
+        String  address = "jdbc:clickhouse://" + EPConfig.URL + ":" + EPConfig.HORT + "/" + EPConfig.DATABASE;
+        connection = DriverManager.getConnection(address,EPConfig.USERNAME,EPConfig.PASSWORD);
     }
 
     @Override
@@ -34,6 +37,7 @@ public class JDBCClickHouseUtil extends RichSinkFunction {
     @Override
     public void invoke(Object value, Context context) throws Exception {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.execute();
     }
 
 

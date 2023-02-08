@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DWSDrawingDetails {
+public class DWSDrawingDetailsBean {
     private int id;
     private String project_num;
     private String position_code;
