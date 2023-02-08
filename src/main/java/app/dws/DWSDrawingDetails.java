@@ -53,9 +53,6 @@ public class DWSDrawingDetails {
                         MilitaryDraw data = value.getObject("after", MilitaryDraw.class);
 
 
-                            if (data.getMc_plan_accept_time() != null && data.getMc_plan_accept_time().toString().length() > 0) {
-
-                        }
                         out.collect(data);
                     }
                 });
@@ -81,8 +78,6 @@ public class DWSDrawingDetails {
                 "left join (select project_num,position_code,send_drawing_time from ods_plm_lable where type='首次') as b \n" +
                 "on a.position_code=b.position_code");
 
-
-//        TableResult tableResult = tabEnv.executeSql("select mc_plan_accept_time from ods_military_draw");
 
         tabEnv.toChangelogStream(tableResult).print();
 

@@ -30,6 +30,6 @@ public class PLMLABLE {
     private String performer;
     private String call_draw_amount;
     private String actual_mc_receive_time;
-    private Date send_drawing_time;
+    private String send_drawing_time;
 
 }
