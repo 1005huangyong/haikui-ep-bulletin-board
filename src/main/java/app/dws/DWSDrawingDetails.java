@@ -5,12 +5,14 @@ import app.Util.MyKafkaUtil;
 import app.bean.MilitaryDraw;
 import app.bean.PLMLABLE;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 
 /**
@@ -23,10 +25,10 @@ public class DWSDrawingDetails {
         StreamTableEnvironment tabEnv = StreamTableEnvironment.create(env);
 
         String topic1 = "PLM_LABLE";
-        String GroupID1 = "ods_PLM_LABLE_1";
+        String GroupID1 = "ods_PLM_LABLE";
 
         String topic2 = "military_draw";
-        String GroupID2 = "ods_military_draw";
+        String GroupID2 = "ods_military_draw_1";
 
         DataStreamSource<String> plmLableStream = env.addSource(MyKafkaUtil.getKafkaConsumer(topic1, GroupID1));
 
@@ -80,16 +82,19 @@ public class DWSDrawingDetails {
                 "on a.position_code=b.position_code");
 
 
-        String sql = "insert into table default.DWSDrawingDetails(id,project_num,position_code,mission,plan_number,actual_number,mc_plan_accept_time,send_drawing_time)" +
-               " values(?,?,?,?,?,?,?,?)";
+        String sql = "insert into table default.DWSDrawingDetails(id,project_num,position_code,mission,plan_number,actual_number)" +
+                " values(?,?,?,?,?,?)";
 
         JDBCClickHouseUtil jdbcSink = new JDBCClickHouseUtil(sql);
 
+        DataStream<Row> rowDataStream = tabEnv.toChangelogStream(tableResult);
 
-        tabEnv.toChangelogStream(tableResult).addSink(jdbcSink);
+
+        rowDataStream.addSink(jdbcSink);
 
         tabEnv.toChangelogStream(tableResult).print();
 
         env.execute();
     }
+
 }
