@@ -10,8 +10,11 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.data.StringData;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 
@@ -25,10 +28,10 @@ public class DWSDrawingDetails {
         StreamTableEnvironment tabEnv = StreamTableEnvironment.create(env);
 
         String topic1 = "PLM_LABLE";
-        String GroupID1 = "ods_PLM_LABLE";
+        String GroupID1 = "ods_PLM_LABLE1";
 
         String topic2 = "military_draw";
-        String GroupID2 = "ods_military_draw_1";
+        String GroupID2 = "ods_military_draw";
 
         DataStreamSource<String> plmLableStream = env.addSource(MyKafkaUtil.getKafkaConsumer(topic1, GroupID1));
 
@@ -76,23 +79,36 @@ public class DWSDrawingDetails {
                 "a.plan_number,\n" +
                 "a.actual_number,\n" +
                 "a.mc_plan_accept_time,\n" +
-                "b.send_drawing_time\n" +
-                "from ods_military_draw as a\n" +
+                "b.send_drawing_time \n" +
+                "from ods_military_draw as a \n" +
                 "left join (select project_num,position_code,send_drawing_time from ods_plm_lable where type='首次') as b \n" +
                 "on a.position_code=b.position_code");
 
 
-        String sql = "insert into table default.DWSDrawingDetails(id,project_num,position_code,mission,plan_number,actual_number)" +
-                " values(?,?,?,?,?,?)";
+        String sql = "insert into table default.DWSDrawingDetails_1(id,project_num,position_code,mission,plan_number,actual_number,mc_plan_accept_time,send_drawing_time)" +
+                " values(?,?,?,?,?,?,?,?)";
 
         JDBCClickHouseUtil jdbcSink = new JDBCClickHouseUtil(sql);
 
         DataStream<Row> rowDataStream = tabEnv.toChangelogStream(tableResult);
 
+        DataStream<Row> resultDataStream = tabEnv.toChangelogStream(tableResult,
+                Schema.newBuilder()
+                        .column("id", DataTypes.INT())
+                        .column("project_num", DataTypes.STRING().bridgedTo(StringData.class))
+                        .column("position_code", DataTypes.STRING().bridgedTo(StringData.class))
+                        .column("mission", DataTypes.STRING().bridgedTo(StringData.class))
+                        .column("plan_number", DataTypes.INT())
+                        .column("actual_number", DataTypes.INT())
+                        .column("mc_plan_accept_time", DataTypes.DATE())
+                        .column("send_drawing_time", DataTypes.DATE())
+                        .build());
 
-        rowDataStream.addSink(jdbcSink);
 
-        tabEnv.toChangelogStream(tableResult).print();
+
+       resultDataStream.addSink(jdbcSink);
+       // resultDataStream.print();
+        //tabEnv.toChangelogStream(tableResult).print();
 
         env.execute();
     }

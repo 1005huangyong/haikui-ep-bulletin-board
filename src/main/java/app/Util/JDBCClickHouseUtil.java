@@ -37,7 +37,7 @@ public class JDBCClickHouseUtil extends RichSinkFunction<Row> {
 
     @Override
     public void invoke(Row value, Context context) throws Exception {
-
+/*
         int id = value.getFieldAs(0);
         String getProject_num = value.getFieldAs(1).toString();
         String getPosition_code = value.getFieldAs(2).toString();
@@ -45,18 +45,18 @@ public class JDBCClickHouseUtil extends RichSinkFunction<Row> {
         int plan_number = value.getFieldAs(4);
         int actual_number = value.getFieldAs(5);
        // String mc_plan_accept_time = value.getFieldAs(6).toString();
-       // String send_drawing_time = value.getFieldAs(7).toString();
+       // String send_drawing_time = value.getFieldAs(7).toString();*/
 
 
         PreparedStatement pst = connection.prepareStatement(sql);
-        pst.setObject(1, id);
-        pst.setObject(2, getProject_num);
-        pst.setObject(3, getPosition_code);
-        pst.setObject(4, getMission);
-        pst.setObject(5, plan_number);
-        pst.setObject(6, actual_number);
-        //pst.setObject(7, mc_plan_accept_time);
-        //pst.setObject(8, send_drawing_time);
+        pst.setObject(1, value.getFieldAs(0));
+        pst.setObject(2, value.getFieldAs(1));
+        pst.setObject(3, value.getFieldAs(2));
+        pst.setObject(4, value.getFieldAs(3));
+        pst.setObject(5, value.getFieldAs(4));
+        pst.setObject(6, value.getFieldAs(5));
+        pst.setObject(7, value.getFieldAs(6));
+        pst.setObject(8, value.getFieldAs(7));
         pst.execute();
     }
 

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,11 +16,11 @@ public class PLMLABLE {
     private String position_code;
     private String workname;
     private String note;
-    private Date createtime;
-    private Date actual_start_time_3d;
-    private Date actual_finish_time_3d;
-    private Date actual_start_time_2d;
-    private Date actual_finish_time_2d;
+    private LocalDateTime createtime;
+    private LocalDateTime actual_start_time_3d;
+    private LocalDateTime actual_finish_time_3d;
+    private LocalDateTime actual_start_time_2d;
+    private LocalDateTime actual_finish_time_2d;
     private String actual_drawing_num;
     private String multiplexing_drawing_num;
     private String type;
@@ -29,7 +29,7 @@ public class PLMLABLE {
     private String ehnum;
     private String performer;
     private String call_draw_amount;
-    private String actual_mc_receive_time;
-    private String send_drawing_time;
+    private LocalDateTime actual_mc_receive_time;
+    private LocalDateTime send_drawing_time;
 
 }

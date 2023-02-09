@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +14,7 @@ public class DWSDrawingDetailsBean {
     private String mission;
     private int plan_number;
     private int actual_number;
-    private Date mc_plan_accept_time;
-    private Date send_drawing_time;
+    private String mc_plan_accept_time;
+    //private String send_drawing_time;
 
 }
