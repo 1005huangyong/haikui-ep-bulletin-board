@@ -15,6 +15,6 @@ public class DWSDrawingDetailsBean {
     private int plan_number;
     private int actual_number;
     private String mc_plan_accept_time;
-    //private String send_drawing_time;
+    private String send_drawing_time;
 
 }
