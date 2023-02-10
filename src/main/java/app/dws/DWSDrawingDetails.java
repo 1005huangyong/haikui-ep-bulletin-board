@@ -100,13 +100,13 @@ public class DWSDrawingDetails {
                         .column("mission", DataTypes.STRING().bridgedTo(StringData.class))
                         .column("plan_number", DataTypes.INT())
                         .column("actual_number", DataTypes.INT())
-                        .column("mc_plan_accept_time", DataTypes.DATE())
-                        .column("send_drawing_time", DataTypes.DATE())
+                        .column("mc_plan_accept_time", DataTypes.TIMESTAMP())
+                        .column("send_drawing_time", DataTypes.TIMESTAMP())
                         .build());
 
 
-
-       resultDataStream.addSink(jdbcSink);
+        MilitaryDrawAfterStream.print();
+      // resultDataStream.addSink(jdbcSink);
        // resultDataStream.print();
         //tabEnv.toChangelogStream(tableResult).print();
 
