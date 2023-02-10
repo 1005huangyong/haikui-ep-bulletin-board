@@ -7,7 +7,8 @@ public class EPConfig {
      public static final String mysql_database="easy_project22";
      public static final String mysql_user="sunwei";
      public static final String mysql_password="Lyric@sunwei";
-     public static final String mysql_timezone="Asia/Shanghai";
+    // public static final String mysql_timezone="Asia/Shanghai";
+     public static final String mysql_timezone="UTC";
 
 /*
      public static final String mysql_host="192.168.0.205";

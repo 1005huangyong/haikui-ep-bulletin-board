@@ -1,6 +1,5 @@
 package app.ods;
 
-
 import app.common.EPConfig;
 import app.func.CustomerDeserialization;
 import com.alibaba.fastjson.JSON;
@@ -30,8 +29,8 @@ public class FlinkCDC {
     public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        //执行环境配置
-        envConfig(env);
+        //执行环境配置 todo 正式环境需要打开
+        //envConfig(env);
 
         //表名定义
         String tableNames = "easy_project22.project,easy_project22.project_plan,easy_project22.PLM_LABLE,easy_project22.military_draw";
