@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +16,9 @@ public class MilitaryDraw {
     private int plan_number;
     private int reuse_number;
     private String vip_position;
-    private LocalDateTime start_time;
-    private LocalDateTime mc_plan_accept_time;
-    private LocalDateTime mc_actual_accept_time;
+    private String start_time;
+    private long mc_plan_accept_time;
+    private long mc_actual_accept_time;
     private String designer;
     private String frameworker;
     private String manager;
@@ -28,12 +27,12 @@ public class MilitaryDraw {
     private String remark;
     private int design_drawing_number;
     private String creator;
-    private LocalDateTime create_time;
+    private long create_time;
     private String modifier;
-    private LocalDateTime modify_time;
+    private long modify_time;
     private int deleted;
     private String deleted_reason;
     private String deleter;
-    private LocalDateTime deleted_time;
+    private long deleted_time;
     private int military_id;
 }
