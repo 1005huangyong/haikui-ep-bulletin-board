@@ -18,7 +18,8 @@ public class MyKafkaUtil {
         Properties properties = new Properties();
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupID);
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, EPConfig.BROKER);
-
+        // 默认读取最早的kafka offset数据
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest");
         return new FlinkKafkaConsumer<String>(topic, new SimpleStringSchema(), properties);
     }
 }
