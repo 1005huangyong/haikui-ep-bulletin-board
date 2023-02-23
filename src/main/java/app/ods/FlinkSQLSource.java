@@ -1,17 +1,15 @@
 package app.ods;
 
-import org.apache.flink.api.common.restartstrategy.RestartStrategies;
-import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
-import org.apache.flink.streaming.api.CheckpointingMode;
-import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 public class FlinkSQLSource {
     public static void main(String[] args) throws Exception {
-//1.创建执行环境
+        //1.创建执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
+
+        env.enableCheckpointing(3000);
 
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 

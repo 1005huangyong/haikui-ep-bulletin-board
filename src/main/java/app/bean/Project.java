@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Project {
-private String id;
+private int id;
 private String project_num;
 private String project_name;
 private String status;

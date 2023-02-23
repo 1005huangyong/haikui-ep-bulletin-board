@@ -17,8 +17,8 @@ public class MilitaryDraw {
     private int reuse_number;
     private String vip_position;
     private String start_time;
-    private long mc_plan_accept_time;
-    private long mc_actual_accept_time;
+    private Long mc_plan_accept_time;
+    private Long mc_actual_accept_time;
     private String designer;
     private String frameworker;
     private String manager;

@@ -1,7 +1,6 @@
 package app.dws;
 
 import app.Util.ClickHouseUtil;
-import app.Util.JDBCClickHouseUtil;
 import app.Util.MyKafkaUtil;
 import app.bean.DWSDrawingDetailsBean;
 import app.bean.MilitaryDraw;
@@ -13,12 +12,8 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
-import org.apache.flink.table.api.DataTypes;
-import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.data.StringData;
-import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 
 /**
@@ -88,11 +83,6 @@ public class DWSDrawingDetails2 {
                 "from ods_plm_lable where type='首次') as b \n" +
                 "on a.position_code=b.position_code");
 
-        //militaryDrawStream.print();
-
-        /*Table table = tabEnv.sqlQuery("select id,project_num,from_unixtime(mc_plan_accept_time /1000,'yyyy-MM-dd HH:mm:ss') mc_plan_accept_times from ods_military_draw  ");
-
-        tabEnv.toDataStream(table).print();*/
 
 
 

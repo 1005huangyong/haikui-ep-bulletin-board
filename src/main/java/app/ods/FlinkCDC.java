@@ -32,12 +32,10 @@ public class FlinkCDC {
         //执行环境配置 todo 正式环境需要打开
         //envConfig(env);
 
-        //表名定义
-        String tableNames = "easy_project22.project,easy_project22.project_plan,easy_project22.PLM_LABLE,easy_project22.military_draw";
 
         //定义侧输出流标签，并将侧输出流放入HashMap中方便后续调用
         HashMap<String, OutputTag<String>> outMap = new HashMap<>();
-        for (String table : tableNames.split(",")) {
+        for (String table : EPConfig.tableNames.split(",")) {
             String[] filterTable = table.split("\\.");
             OutputTag<String> outputTag = new OutputTag<String>(filterTable[1]) {
             };
@@ -50,7 +48,7 @@ public class FlinkCDC {
                 .username(EPConfig.mysql_user)
                 .password(EPConfig.mysql_password)
                 .databaseList(EPConfig.mysql_database)
-                .tableList(tableNames)
+                .tableList(EPConfig.tableNames)
                 .serverTimeZone(EPConfig.mysql_timezone)
                 .deserializer(new CustomerDeserialization())
                 .startupOptions(StartupOptions.initial())

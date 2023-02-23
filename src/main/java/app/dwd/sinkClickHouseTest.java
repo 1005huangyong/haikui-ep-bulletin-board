@@ -10,7 +10,6 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.util.Collector;
-
 public class sinkClickHouseTest {
 
 
@@ -36,18 +35,12 @@ public class sinkClickHouseTest {
                     }
                 });
 
-
-
         afterStream.print("ProjectMap");
 
         afterStream.print();
 
        // ProjectMap.addSink(ClickHouseUtil.getSink("insert into default.project (id,project_num,project_name,status,client_num,client_name) values (?,?,?,?,?,?)"));
-
-
         env.execute();
-
-
     }
 
 }
